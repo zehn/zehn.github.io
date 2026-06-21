@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TECH BLOG | ZEHN'S SPACE</title>
+  <meta name="description" content="Technical blog page with practical articles, tools, architecture and workflow insights." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="site-brand">
+        <span class="brand-mark">B</span>
+        <div>
+          <p class="brand-title">ZEHN'S SPACE</p>
+          <p class="brand-subtitle">TECH BLOG</p>
+        </div>
+      </div>
+      <nav class="topnav">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blogs</a>
+        <a href="timeline.html">Thinking</a>
+        <a href="index.html#about">About</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-content">
+          <p class="eyebrow">TECH BLOG</p>
+          <h1>READ PRACTICAL ARTICLES FOR DEVELOPERS</h1>
+          <p>整理前端、部署、流程和思考方法的实用内容，帮助你快速吸收与复盘。</p>
+          <div class="hero-actions">
+            <a href="timeline.html" class="button button-secondary">VIEW TIMELINE</a>
+            <a href="index.html" class="button button-secondary">BACK TO HOME</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">TECH BLOG</p>
+            <h2>INSIGHTS, TOOLS AND PRACTICAL GUIDES</h2>
+          </div>
+          <div class="section-actions">
+            <input id="searchInput" type="search" placeholder="搜索文章标题、标签或关键字" aria-label="搜索文章" />
+          </div>
+        </div>
+        <div id="posts" class="card-grid"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© 2026 个人博客 · 技术博客页面</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

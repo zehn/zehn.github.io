@@ -1,14 +1,104 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title> My Blog </title>
-  </head>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZEHN'S SPACE | TECH THINKING</title>
+  <meta name="description" content="Main page for ZEHN'S SPACE" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
 <body>
-  <div class="header_page">
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="site-brand">
+        <span class="brand-mark">V</span>
+        <div>
+          <p class="brand-title">ZEHN'S SPACE</p>
+          <p class="brand-subtitle">Tech Insights · Thinking Timeline</p>
+        </div>
+      </div>
+      <nav class="topnav">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blogs</a>
+        <a href="timeline.html">Thinking</a>
+        <a href="index.html#about">About</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-content">
+          <p class="eyebrow">ZEHN'S SPACE · GITHUB PAGES</p>
+          <h1>START TECH JOURNEY</h1>
+          <p>在这里发布架构心得、开发流程、工具经验，以及日常的时间线式自我反思。</p>
+          <div class="hero-actions">
+            <a href="blog.html" class="button button-primary">VIEW BLOGS</a>
+            <a href="timeline.html" class="button button-secondary">VIEW THINKINGS</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-card">
+            <span>最新文章</span>
+            <h2>用静态页面搭建可信赖的个人博客</h2>
+            <p>采用纯静态 HTML/CSS/JS 模板，兼容 GitHub Pages，专注内容与沉淀。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="blog" class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">TECH BLOG</p>
+            <h2>SHARING TOOLS, ARCHITECTURE AND PRACTICE</h2>
+          </div>
+          <div class="section-actions">
+            <div class="action-row">
+              <input id="searchInput" type="search" placeholder="搜索文章标题、标签或关键字" aria-label="搜索文章" />
+            </div>
+          </div>
+        </div>
+        <div id="posts" class="card-grid"></div>
+      </section>
+
+      <section id="timeline" class="section section-alt">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">THINKING TIMELINE</p>
+            <h2>CAPTURE IDEAS, REFLECTIONS AND GROWTH</h2>
+          </div>
+        </div>
+        <div id="timelineList" class="timeline-list"></div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">关于我</p>
+            <h2>向往蓝天与思考的爱好者</h2>
+          </div>
+        </div>
+        <div class="about-grid">
+          <div>
+            <h3>你的写作场景</h3>
+            <p>这个博客模板适合记录技术实践、每日学习、产品思考、团队协作经验等内容。页面结构轻量，适合无构建部署。</p>
+          </div>
+          <div>
+            <h3>部署方式</h3>
+            <p>将仓库推送到 GitHub，然后在仓库设置中启用 GitHub Pages，选择 main 分支的根目录即可发布。</p>
+          </div>
+          <div>
+            <h3>扩展建议</h3>
+            <p>可按需补充更多文章页面、分类导航，或添加评论、RSS 订阅、深色模式、搜索引擎优化。</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© 2026 个人博客 · 使用 GitHub Pages 托管的静态网站模板</p>
+    </footer>
   </div>
-<h1>Echo:Accompany is the longest confession of love. </h1>
-<p></p>
-  <footer>
-  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
