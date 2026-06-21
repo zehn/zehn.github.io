@@ -7,6 +7,8 @@
 - `index.html` — 主页，展示网站概览与两个主要入口
 - `blog.html` — 技术博客页面，展示文章列表和搜索入口
 - `timeline.html` — 思考时间线页面，仅展示日期与思考内容
+- `data/blog.md` — 博客内容 Markdown 数据源，可直接编辑和维护文章条目
+- `data/timeline.md` — 时间线内容 Markdown 数据源，可直接编辑和维护每条思考记录
 - `styles.css` — 主题样式，提供简约美观的视觉风格
 - `script.js` — 渲染博客文章和时间线记录的交互逻辑
 
