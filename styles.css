@@ -375,6 +375,35 @@ button, input {
   background: rgba(124, 219, 255, 0.05);
 }
 
+.content-article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+.content-article thead {
+  border-bottom: 2px solid rgba(124, 219, 255, 0.3);
+}
+
+.content-article th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  color: var(--text);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.content-article td {
+  padding: 0.75rem 1rem;
+  color: var(--muted);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.content-article tbody tr:hover {
+  background: rgba(124, 219, 255, 0.06);
+}
+
 .tag-list {
   display: flex;
   flex-wrap: wrap;

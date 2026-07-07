@@ -137,11 +137,18 @@ function parseTimelineMarkdown(text) {
 
 async function loadMarkdown(path, parser, target) {
   try {
-    const cacheBustedPath = `${path}${path.includes('?') ? '&' : '?'}v=${Date.now()}`;
-    const response = await fetch(cacheBustedPath, { cache: 'no-store' });
-    if (!response.ok) throw new Error(`Unable to load ${path}`);
-    const text = await response.text();
-    const parsed = parser(text);
+    var cacheBuster = '_cb=' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    var cacheBustedPath = path + (path.includes('?') ? '&' : '?') + cacheBuster;
+    var response = await fetch(cacheBustedPath, {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache'
+      }
+    });
+    if (!response.ok) throw new Error('Unable to load ' + path);
+    var text = await response.text();
+    var parsed = parser(text);
     target.splice(0, target.length, ...parsed);
     return true;
   } catch (error) {
@@ -212,15 +219,98 @@ function getQueryParam(name) {
   return params.get(name);
 }
 
+function processInlineMarkdown(text) {
+  var escaped = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  return escaped
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
+}
+
+function isTableRow(line) {
+  return line.startsWith('|') && line.endsWith('|');
+}
+
+function isAlignmentRow(line) {
+  return /^\|[\s\-:|]+\|$/.test(line);
+}
+
+function parseTableRow(line) {
+  return line.slice(1, -1).split('|');
+}
+
+function parseAlignmentRow(line) {
+  return line.slice(1, -1).split('|').map(function(cell) {
+    var trimmed = cell.trim();
+    if (trimmed.startsWith(':') && trimmed.endsWith(':')) return 'center';
+    if (trimmed.endsWith(':')) return 'right';
+    return 'left';
+  });
+}
+
+function renderTable(buffer) {
+  var html = '<table>';
+  var headers = parseTableRow(buffer[0]);
+  html += '<thead><tr>';
+  headers.forEach(function(h) {
+    html += '<th>' + processInlineMarkdown(h.trim()) + '</th>';
+  });
+  html += '</tr></thead>';
+
+  var dataStart = 1;
+  var alignments = [];
+
+  if (buffer.length > 1 && isAlignmentRow(buffer[1])) {
+    alignments = parseAlignmentRow(buffer[1]);
+    dataStart = 2;
+  }
+
+  if (dataStart < buffer.length) {
+    html += '<tbody>';
+    for (var i = dataStart; i < buffer.length; i++) {
+      var cells = parseTableRow(buffer[i]);
+      html += '<tr>';
+      cells.forEach(function(cell, j) {
+        var alignStyle = alignments[j] ? ' style="text-align:' + alignments[j] + '"' : '';
+        html += '<td' + alignStyle + '>' + processInlineMarkdown(cell.trim()) + '</td>';
+      });
+      html += '</tr>';
+    }
+    html += '</tbody>';
+  }
+
+  html += '</table>';
+  return html;
+}
+
 function markdownToHtml(text) {
   const lines = text.replace(/\r?\n/g, '\n').split('\n');
   let html = '';
   let inCodeBlock = false;
   let listType = '';
+  let tableBuffer = [];
 
   lines.forEach((rawLine) => {
     const trimmed = rawLine.trim();
     let line = rawLine;
+
+    if (isTableRow(trimmed)) {
+      if (listType) {
+        html += listType === 'ol' ? '</ol>' : '</ul>';
+        listType = '';
+      }
+      tableBuffer.push(trimmed);
+      return;
+    }
+
+    if (tableBuffer.length > 0) {
+      html += renderTable(tableBuffer);
+      tableBuffer = [];
+    }
 
     if (trimmed.startsWith('```')) {
       inCodeBlock = !inCodeBlock;
@@ -289,17 +379,13 @@ function markdownToHtml(text) {
       return;
     }
 
-    const escaped = line
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-
-    const linked = escaped
-      .replace(/`([^`]+)`/g, '<code>$1</code>')
-      .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
-
-    html += `<p>${linked.trim()}</p>`;
+    html += '<p>' + processInlineMarkdown(line.trim()) + '</p>';
   });
+
+  if (tableBuffer.length > 0) {
+    html += renderTable(tableBuffer);
+    tableBuffer = [];
+  }
 
   if (listType) {
     html += listType === 'ol' ? '</ol>' : '</ul>';
@@ -359,11 +445,18 @@ async function loadPostDetail(slug) {
   if (!postDetail || !postTitle || !postContent || !postMeta) return;
 
   try {
-    const postPath = `data/posts/${slug}.md?v=${Date.now()}`;
-    const response = await fetch(postPath, { cache: 'no-store' });
+    var cacheBuster = '_cb=' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    var postPath = 'data/posts/' + slug + '.md?' + cacheBuster;
+    var response = await fetch(postPath, {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache'
+      }
+    });
     if (!response.ok) throw new Error('文章未找到');
-    const text = await response.text();
-    const post = parsePostMarkdown(text);
+    var text = await response.text();
+    var post = parsePostMarkdown(text);
 
     postTitle.textContent = post.title || '文章详情';
     postMeta.innerHTML = `<span>${post.date}</span>${post.category ? `<span>${post.category}</span>` : ''}${post.tags.length ? `<span>${post.tags.join(' · ')}</span>` : ''}`;
