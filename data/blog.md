@@ -1,18 +1,18 @@
 # Blog Posts
 
-## 构建可维护的前端组件库
-- Date: 2026-06-12
-- Category: 前端实践
-- Tags: 组件, 前端, 设计
-- Slug: build-maintainable-component-library
+## 内存布局与管理
+- Date: 2026-07-07
+- Category: 内存
+- Tags: 内存布局, 内存管理
+- Slug: memory-layout-and-management
 
 从设计原则、组件抽象到版本管理，归纳可以长期迭代的前端组件库实践方式。
 
-## 静态站点与 GitHub Pages 部署指南
-- Date: 2026-05-28
-- Category: 部署方案
-- Tags: GitHub Pages, 静态站点, 部署
-- Slug: static-site-github-pages
+## 内存模型
+- Date: 2026-07-08
+- Category: 内存
+- Tags: 内存模型
+- Slug: memory-model
 
 用纯静态 HTML/CSS/JS 实现博客，并将它发布到 GitHub Pages 的最佳实践。
 
