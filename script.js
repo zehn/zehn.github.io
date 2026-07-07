@@ -137,7 +137,8 @@ function parseTimelineMarkdown(text) {
 
 async function loadMarkdown(path, parser, target) {
   try {
-    const response = await fetch(path);
+    const cacheBustedPath = `${path}${path.includes('?') ? '&' : '?'}v=${Date.now()}`;
+    const response = await fetch(cacheBustedPath, { cache: 'no-store' });
     if (!response.ok) throw new Error(`Unable to load ${path}`);
     const text = await response.text();
     const parsed = parser(text);
@@ -358,7 +359,8 @@ async function loadPostDetail(slug) {
   if (!postDetail || !postTitle || !postContent || !postMeta) return;
 
   try {
-    const response = await fetch(`data/posts/${slug}.md`);
+    const postPath = `data/posts/${slug}.md?v=${Date.now()}`;
+    const response = await fetch(postPath, { cache: 'no-store' });
     if (!response.ok) throw new Error('文章未找到');
     const text = await response.text();
     const post = parsePostMarkdown(text);
